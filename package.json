@@ -8,6 +8,9 @@
   "scripts": {
     "test": "https://github.com/shmily1991whj/tuiter-node-server-app"
   },
+  "scripts": {
+    "start": "node app.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/shmily1991whj/tuiter-node-server-app.git"
@@ -27,4 +30,5 @@
   "dependencies": {
     "express": "^4.18.2"
   }
+
 }
