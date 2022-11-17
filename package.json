@@ -6,10 +6,8 @@
   "description": "Node.js HTTP Web server for the Tuiter application",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js"
-  },
-  "scripts": {
-    "test": "https://github.com/shmily1991whj/tuiter-node-server-app"
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
 
   "repository": {
