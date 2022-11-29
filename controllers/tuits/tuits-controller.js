@@ -1,5 +1,6 @@
-import posts from './tuits.js';
-let tuits = posts;
+import * as tuitsDao from '../tuits/tuits-dao.js'
+// import posts from './tuits.js';
+// let tuits = posts;
 
 
 const TuitsController = (app) => {
@@ -9,9 +10,9 @@ const TuitsController = (app) => {
     app.delete('/api/tuits/:tid', deleteTuit);
 
 }
-const createTuit = (req, res) => {
+const createTuit = async (req, res) => {
     const newTuit = req.body;
-    newTuit._id = (new Date()).getTime() + '';
+    // newTuit._id = (new Date()).getTime() + '';
     newTuit.likes = 0;
     newTuit.liked = false;
     newTuit.dislikes = 0;
@@ -21,37 +22,48 @@ const createTuit = (req, res) => {
     newTuit.handle = "@nasa";
     newTuit.image = "nasa.jpg";
     newTuit.time = '2h';
-    tuits.push(newTuit);
-    res.json(newTuit);
+    // tuits.push(newTuit);
+    // res.json(newTuit);
+    const insertedTuit = await tuitsDao
+        .createTuit(newTuit);
+    res.json(insertedTuit);
+
 }
-const findTuits = (req, res) => {
+const findTuits = async (req, res) => {
+    const tuits = await tuitsDao.findTuits()
     res.json(tuits);
 }
 
-const deleteTuit = (req, res) => {
+
+
+const deleteTuit = async(req, res) => {
     // const tuitdIdToDelete = req.params.tid;
     // tuits = tuits.filter((t) =>
     //     t._id !== tuitdIdToDelete);
     // res.sendStatus(200);
-    const tuitIdToDelete = req.params.tid;
-    tuits = tuits.filter((t) => t._id.toString() !== tuitIdToDelete);
-    res.sendStatus(200);
+    const tuitdIdToDelete = req.params.tid;
+    const status = await tuitsDao.deleteTuit(tuitdIdToDelete);
+    // tuits = tuits.filter((t) => t._id.toString() !== tuitIdToDelete);
+    // res.sendStatus(200);
+    res.json(status);
 }
 
 
-const updateTuit = (req, res) => {
+const updateTuit = async(req, res) => {
     // const tuitdIdToUpdate = req.params.tid;
     // const updates = req.body;
     // tuits = tuits.map(t =>
     //     String(t._id) === tuitdIdToUpdate ? {...t, ...updates} : t
     // );
     // res.sendStatus(200);
+    const tuitdIdToUpdate = req.params.tid;
+    const updates = req.body;
+    // const tuitIndex = tuits.findIndex((t) => t._id.toString() === tuitIdToUpdate);
+    // tuits[tuitIndex] = {...tuits[tuitIndex], ...update};
+    // res.sendStatus(200);
+    const status = await tuitsDao.updateTuit(tuitdIdToUpdate, updates);
+    res.json(status);
 
-    const tuitIdToUpdate = req.params.tid;
-    const update = req.body;
-    const tuitIndex = tuits.findIndex((t) => t._id.toString() === tuitIdToUpdate);
-    tuits[tuitIndex] = {...tuits[tuitIndex], ...update};
-    res.sendStatus(200);
 }
 
 
